@@ -1,0 +1,9 @@
+{
+  "expo": {
+    "sdkVersion": "26.0.0",
+    "name": "TAP",
+    "slug": "tap",
+    "icon": "src/images/app-icon.png",
+    "privacy": "unlisted"
+  }
+}

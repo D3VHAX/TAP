@@ -1,0 +1,25 @@
+{
+  "presets": ["babel-preset-expo"],
+  "env": {
+    "development": {
+      "plugins": ["transform-react-jsx-source"]
+    }
+  },
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "reducers": "./src/reducers",
+        "containers": "./src/containers",
+        "components": "./src/components",
+        "constants": "./src/constants",
+        "routes": "./src/routes",
+        "actions": "./src/actions",
+        "Theme": "./native-base-theme",
+        "lib": "./src/lib",
+        "store": "./src/store",
+        "animations": "./src/animations"
+      }
+    }]
+  ]
+}
