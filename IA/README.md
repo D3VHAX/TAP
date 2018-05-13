@@ -1,11 +1,11 @@
-#💡 TAP Elasticsearch
+# 💡 TAP Elasticsearch
 
 For data processing and storage, we use Elasticsearch
 
 ### Base URL
 `http://tap-project.tk:9200/`
 
-##Local access only
+## Local access only
 ### Refresh recommendations
 ```bash
 curl -XPOST localhost/_taste/action/recommended_items_from_user -d '{
@@ -68,7 +68,7 @@ curl -XGET "localhost:9200/tap/item/_search?q=title:3&pretty"
 ```
 
 
-##Remote access via Postman
+## Remote access via Postman
 
 ### Add article to database
 
