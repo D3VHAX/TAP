@@ -9,7 +9,7 @@ import Scheduler from './scheduler'
 import keyword from './keywords'
 import storage from './storage'
 import readingTime from './timeEstimator'
-
+import urlCleaner from './urlCleaner'
 
 let scheduler = new Scheduler()
 
@@ -45,7 +45,10 @@ scheduler.listenJobs(async (feed) => {
     data.creationDate = _.get(item,
         publishers[feed.publisher].tags.creationDate)
     data.picture = _.get(item, publishers[feed.publisher].tags.picture)
-    data.url = _.get(item, publishers[feed.publisher].tags.url)
+    data.url = urlCleaner(
+      _.get(item, publishers[feed.publisher].tags.url),
+      publishers[feed.publisher].urlStripParameters
+    );
 
     readingTime(data.url, publishers[feed.publisher]).then((stats)=>{
       data.stats = {

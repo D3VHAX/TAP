@@ -2,6 +2,7 @@ let feed = {
   commonName: '01Net',
   websiteUrl: 'http://www.01net.com/',
   articleParsingTag: 'div[itemprop="articleBody"]',
+  urlStripParameters: [],
   resources: [
     {
       endpoint: 'http://www.01net.com/rss/actualites/securite/',
