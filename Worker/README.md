@@ -27,6 +27,7 @@ let feed = (Object) {
   commonName: (string), // Name of publisher
   websiteUrl: (string), // Main publisher website
   articleParsingTag: (string), // HTML div name of article to calculate reading time
+  urlStripParameters: (Array of Strings) // URL query string parameters to remove
   resources: (Array of Objects) [
     {
       endpoint: (string), // RSS endpoint
