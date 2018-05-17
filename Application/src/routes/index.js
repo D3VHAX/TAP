@@ -6,8 +6,9 @@ import DefaultProps from 'constants/navigation';
 
 
 import RecipesContainer from 'containers/Recipes';
-import RecipesComponent from 'components/Recipes';
-import RecipeViewComponent from 'components/Recipe';
+import RecipesComponent from 'components/Articles';
+import RecipeViewComponent from 'components/Article';
+
 
 import SignUpContainer from 'containers/Member/SignUp';
 import SignUpComponent from 'components/Member/SignUp';
