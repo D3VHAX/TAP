@@ -27,7 +27,7 @@ function removeURLParameter(url, parameter) {
 }
 
 let cleaner = function(url, urlStripParameters) {
-    url.trim();
+    url = url.trim();
     urlStripParameters.forEach(function(value) {
         removeURLParameter(url, value);
     });
