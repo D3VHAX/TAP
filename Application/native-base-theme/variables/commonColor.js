@@ -97,7 +97,7 @@ export default {
   },
   get borderRadiusLarge() {
     return this.fontSizeBase * 3.8;
-   // return 10;
+    // return 10;
   },
 
   buttonPadding: 6,

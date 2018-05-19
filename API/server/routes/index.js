@@ -9,11 +9,11 @@ Api.use(cors());
 const router = new Router();
 
 router.get('/ping', function (ctx) {
-  ctx.body = {msg : "pong"}
+  ctx.body = { msg : 'pong' };
 });
 
 router.get('*', ctx => {
-  ctx.body = {err : "Stop procrastinating"};
+  ctx.body = { err : 'Stop procrastinating' };
   ctx.status = 404;
 });
 

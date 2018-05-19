@@ -1,6 +1,6 @@
 import  elasticsearch from 'elasticsearch';
-import {Logger} from 'utils/logger'
-let logger = new Logger("Elastic")
+import { Logger } from 'utils/logger';
+let logger = new Logger('Elastic');
 let client = new elasticsearch.Client({
   host: 'localhost:9200',
   log: 'trace'
@@ -18,4 +18,4 @@ client.ping({
 
 
 
-export default client
+export default client;
