@@ -6,6 +6,7 @@ import ErrorMessages from 'constants/errors';
 import Error from './Error';
 import Spacer from './Spacer';
 
+
 const RecipeView = ({
   error,
   recipes,
@@ -41,7 +42,6 @@ const RecipeView = ({
     <Container>
       <Content padder>
         <Image source={{ uri: recipe.image }} style={{ height: 100, width: null, flex: 1 }} />
-
         <Spacer size={25} />
         <H3>{recipe.title}</H3>
         <Text>by {recipe.author}</Text>
