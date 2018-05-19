@@ -1,0 +1,62 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "arrow-spacing": ["error", { "before": true, "after": true }],
+    "indent": [
+      1,
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "quotes": [
+      2,
+      "single"
+    ],
+    "linebreak-style": [
+      2,
+      "unix"
+    ],
+    "no-console": 0,
+    "no-unused-vars": [
+      1
+    ],
+    "semi": [
+      2,
+      "always"
+    ]
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "mocha": true,
+    "node": true
+  },
+  "globals": {
+    "expect": true
+  },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
+  },
+  "extends": [
+   // "standard",
+    "eslint:recommended"
+   ],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "ecmaVersion": 6
+  },
+  "plugins": [
+    "babel"
+  ]
+}
