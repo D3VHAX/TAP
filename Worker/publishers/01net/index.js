@@ -21,6 +21,6 @@ let feed = {
     creationDate: 'pubDate',
     url: 'link',
   },
-}
+};
 
-export default feed
+export default feed;

@@ -1,18 +1,18 @@
-import schedule from 'node-schedule'
-import EventEmitter from 'events'
+import schedule from 'node-schedule';
+import EventEmitter from 'events';
 
 class Scheduler extends EventEmitter {
 
   constructor() {
-    super()
-    this.endpoints = []
-    this.event = new EventEmitter()
-    let context = this
+    super();
+    this.endpoints = [];
+    this.event = new EventEmitter();
+    let context = this;
     this.job = schedule.scheduleJob('0-59/30 * * * * *', () => {
       for (let endPoint of context.endpoints) {
-        context.event.emit('fetching', endPoint)
+        context.event.emit('fetching', endPoint);
       }
-    })
+    });
   }
 
   addJob(feed, publisher) {
@@ -22,30 +22,30 @@ class Scheduler extends EventEmitter {
       endpoint,
       categories : categories,
       publisher
-    })
+    });
   }
 
-   listenJobs(callback) {
-    let context = this
-    context.event.setMaxListeners(0)
+  listenJobs(callback) {
+    let context = this;
+    context.event.setMaxListeners(0);
     this.event.on('fetching', (feed) => {
       let data = {
         url: feed.endpoint,
         categories: feed.categories,
         publisher: feed.publisher,
 
-      }
-      callback(data)
-    })
+      };
+      callback(data);
+    });
   }
 
   viewJobs() {
-    return JSON.stringify(this.endpoints)
+    return JSON.stringify(this.endpoints);
   }
 
   cancelJobs() {
     if (this.job !== null) {
-      return this.job.cancel()
+      return this.job.cancel();
     }
   }
 
@@ -54,4 +54,4 @@ class Scheduler extends EventEmitter {
   }
 }
 
-export default Scheduler
+export default Scheduler;
