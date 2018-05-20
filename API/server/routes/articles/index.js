@@ -4,9 +4,16 @@ const router = new Router();
 const logger = new Logger('api@Articles');
 import Elastic from 'models';
 
+/*
+Params
+number : int
+ */
+
+
 router.get('/articles', async ctx => {
   let articles = [
     {
+      'id' : new Date().getTime(),
       'keywords': [
         'facebook',
         'microsoft',
@@ -30,6 +37,7 @@ router.get('/articles', async ctx => {
       }
     },
     {
+      'id' : new Date().getTime(),
       'keywords': [
         'attaques',
         'réseaux',
@@ -55,6 +63,7 @@ router.get('/articles', async ctx => {
       }
     },
     {
+      'id' : new Date().getTime(),
       'keywords': [
         'façons',
         'reporter',
@@ -78,7 +87,11 @@ router.get('/articles', async ctx => {
   ];
 
   try {
+    if (ctx.query.number){
+      return ctx.body = (articles); //Only required number;
+    }
     ctx.body = (articles);
+
   } catch (error) {
     ctx.status = 400;
     ctx.body = { err: 'Error occured while fetching data' };
