@@ -5,7 +5,7 @@ import AppConfig from 'constants/config';
 import DefaultProps from 'constants/navigation';
 
 
-import RecipesContainer from 'containers/Recipes';
+import RecipesContainer from 'containers/Articles';
 import RecipesComponent from 'components/Articles';
 import RecipeViewComponent from 'components/Article';
 
@@ -46,6 +46,7 @@ const Index = (
           <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} />
           <Scene
             back
+            rightTitle="_"
             key="signUp"
             title="SIGN UP"
             {...DefaultProps.navbarProps}
@@ -55,6 +56,7 @@ const Index = (
           <Scene
             back
             initial
+            rightTitle="_"
             key="login"
             title="LOGIN"
             {...DefaultProps.navbarProps}
@@ -63,6 +65,7 @@ const Index = (
           />
           <Scene
             back
+            rightTitle="_"
             key="forgotPassword"
             title="FORGOT PASSWORD"
             {...DefaultProps.navbarProps}
@@ -71,6 +74,7 @@ const Index = (
           />
           <Scene
             back
+            rightTitle="_"
             key="updateProfile"
             title="UPDATE PROFILE"
             {...DefaultProps.navbarProps}
@@ -89,7 +93,7 @@ const Index = (
 
         <Stack
           key="recipes"
-          title="RECIPES"
+          title="ARTICLES"
           icon={() => <SimpleLineIcons name="book-open" size={26} {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
@@ -103,8 +107,9 @@ const Index = (
     <Scene
       back
       clone
-      key="recipe"
-      title="RECIPE"
+      key="article"
+      rightTitle="_"
+      title=""
       {...DefaultProps.navbarProps}
       component={RecipesContainer}
       Layout={RecipeViewComponent}
