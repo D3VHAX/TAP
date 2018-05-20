@@ -13,7 +13,7 @@ number : int
 router.get('/articles', async ctx => {
   let articles = [
     {
-      'id' : new Date().getTime(),
+      'id' : 1,
       'keywords': [
         'facebook',
         'microsoft',
@@ -37,7 +37,7 @@ router.get('/articles', async ctx => {
       }
     },
     {
-      'id' : new Date().getTime(),
+      'id' : 2,
       'keywords': [
         'attaques',
         'réseaux',
@@ -63,7 +63,7 @@ router.get('/articles', async ctx => {
       }
     },
     {
-      'id' : new Date().getTime(),
+      'id' : 3,
       'keywords': [
         'façons',
         'reporter',
