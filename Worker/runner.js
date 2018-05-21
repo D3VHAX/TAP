@@ -50,12 +50,12 @@ scheduler.listenJobs(async (feed) => {
       publishers[feed.publisher].urlStripParameters
     );
 
-    readingTime(data.url, publishers[feed.publisher]).then((stats) => {
+    await readingTime(data.url, publishers[feed.publisher]).then(async (stats) => {
       data.stats = {
         readingTime: Math.floor(stats.time),
         wordCount: stats.words,
       };
-      storage(data);
+      await storage(data);
     }).catch((e) => {
       log.error('Can\'t estimate readingTime: ' + e);
     });
