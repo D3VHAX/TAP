@@ -4,7 +4,7 @@ import http from 'http';
 import crypto from 'crypto';
 import request from 'request';
 
-let log = new Logger('Runner');
+let log = new Logger('Storage');
 
 const ES_URL = 'tap-project.tk:9200';
 
@@ -13,59 +13,54 @@ var client = new elasticsearch.Client({
     apiVersion: '2.4'
 });
 
-let store = (data) => {
-    return new Promise(function(resolve, reject) {
-        var shasum = crypto.createHash('sha1');
-        shasum.update(data.url);
-        var system_id = shasum.digest('hex');
-        data.system_id = system_id;
+var urlToSystemId = function(url) {
+    var shasum = crypto.createHash('sha1');
+    shasum.update(url);
 
+    return shasum.digest('hex');
+}
+
+export function CheckExist (data) {
+    return new Promise(function(resolve, reject) {
         client.search({
             index: 'tap',
             type: 'item',
             body: {
               query: {
                 match: {
-                  system_id: system_id
+                  system_id: urlToSystemId(data.url)
                 }
               }
             }
         }).then(function success(resp) {
-            if(resp.hits.total === 0) {
-                log.info('[' + system_id + '] Storing');
-                data.system_id = system_id;
+            resolve(resp.hits.total !== 0);
+        }, function error(err) {
+            reject(err);
+        });
+    });
+}
 
-                request.post('http://'+ES_URL+'/tap/item/_taste/event', {
-                    json: {
-                        item: data,
-                    },
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }, function(error, response, body) {
-                    if(error || response.statusCode != 200) {
-                        log.error("Error while sending data for '"+data.system_id+"' (HTTPCode: "+response.statusCode+")");
-                        //log.error(response);
-                        resolve();
-                    } else {
-                        log.success("Content ("+data.url+")" + data.system_id + " successfuly added.");
-                        resolve();
-                    }
-                });
+export function Persist (data) {
+    return new Promise(function(resolve, reject) {
+        data.system_id = urlToSystemId(data.url);
+
+        log.info('['+data.publisher+'] [' + data.system_id + '] Storing');
+
+        request.post('http://'+ES_URL+'/tap/item/_taste/event', {
+            json: {
+                item: data,
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }, function(error, response, body) {
+            if(error || response.statusCode != 200) {
+                //reject('['+data.publisher+'] [' + data.system_id + '] Error while sending data (HTTPCode: '+response.statusCode+')');
+                resolve(); // ignore
             } else {
-                log.info('[' + system_id + '] Already exists');
+                log.success('['+data.publisher+'] [' + data.system_id + '] Successfuly added');
                 resolve();
             }
-        }, function error(err) {
-            log.error('Error while sending request to ElasticSearch (search operation)');
         });
-
-        // Generate an identifier from URL (sha1)
-        // Use elasticsearch client SDK to search an object with that hash
-        // If exist, ignore
-        // If doesn't exist, store object in datastore
-        //log.debug(data);
     });
-};
-
-export default store;
+}

@@ -12,7 +12,22 @@ let feed = {
       endpoint: 'http://www.01net.com/rss/actualites/politique-droits/',
       categories: ['politique', 'droits'],
     },
-
+    {
+      endpoint: 'https://www.01net.com/rss/actualites/jeux/',
+      categories: ['jeux', 'divertissement', 'esport'],
+    },
+    {
+      endpoint: 'https://www.01net.com/rss/actualites/buzz-societe/',
+      categories: ['buzz', 'societe'],
+    },
+    {
+      endpoint: 'https://www.01net.com/rss/actualites/produits/',
+      categories: ['produits'],
+    },
+    {
+      endpoint: 'https://www.01net.com/rss/actualites/science-recherche/',
+      categories: ['science', 'recherche'],
+    }
   ],
   tags: {
     title: 'title',

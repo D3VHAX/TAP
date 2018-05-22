@@ -14,7 +14,7 @@ let readingTime = (url, publisher) => {
       const $ = cheerio.load(res.data, {    normalizeWhitespace: true });
       let div = $(publisher.articleParsingTag).html();
       if (div == null){
-        reject('Div is null');
+        reject('Content not fitting app policy. Filtering (url : ' + url + ')');
       }
       let text = htmlToText.fromString(div, {
         wordwrap: 130,

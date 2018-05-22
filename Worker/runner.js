@@ -7,7 +7,7 @@ import _ from 'lodash';
 import * as publishers from './publishers';
 import Scheduler from './scheduler';
 import keyword from './keywords';
-import storage from './storage';
+import {Persist, CheckExist} from './storage';
 import readingTime from './timeEstimator';
 import urlCleaner from './urlCleaner';
 
@@ -31,6 +31,18 @@ scheduler.listenJobs(async (feed) => {
   let items = await parser.parseURL(feed.url);
   for (let item of items.items) {
     let data = {};
+
+    data.publisher = publishers[feed.publisher].commonName;
+    data.url = urlCleaner(
+      _.get(item, publishers[feed.publisher].tags.url),
+      publishers[feed.publisher].urlStripParameters
+    );
+
+    if(await CheckExist(data)) {
+      log.debug('['+data.publisher+'] Skipping duplicate content');
+      continue;
+    }
+
     try {
       data.keywords = await keyword(item[publishers[feed.publisher].tags.title]);
     }
@@ -38,28 +50,29 @@ scheduler.listenJobs(async (feed) => {
       log.error(e);
     }
 
-    data.publisher = publishers[feed.publisher].commonName;
     data.categories = feed.categories;
     data.title = _.get(item, publishers[feed.publisher].tags.title);
     data.description = striptags(_.get(item, publishers[feed.publisher].tags.description));
     data.creationDate = _.get(item,
       publishers[feed.publisher].tags.creationDate);
     data.picture = _.get(item, publishers[feed.publisher].tags.picture);
-    data.url = urlCleaner(
-      _.get(item, publishers[feed.publisher].tags.url),
-      publishers[feed.publisher].urlStripParameters
-    );
 
-    await readingTime(data.url, publishers[feed.publisher]).then(async (stats) => {
+    try {
+      let stats = await readingTime(data.url, publishers[feed.publisher]);
+
       data.stats = {
         readingTime: Math.floor(stats.time),
         wordCount: stats.words,
       };
-      await storage(data);
-    }).catch((e) => {
-      log.error('Can\'t estimate readingTime: ' + e);
-    });
 
+      try {
+        await Persist(data);
+      } catch(e) {
+        log.error('['+data.publisher+'] Storage error : ' + e);
+      }
+    } catch(e) {
+      log.warning('['+data.publisher+'] Quality Check filtering : ' + e);
+    }
   }
 
 });

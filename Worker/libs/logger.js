@@ -5,7 +5,8 @@ let types = {
   error: 'ERROR',
   debug: 'DEBUG',
   info: 'INFO',
-  success: 'SUCCS'
+  success: 'SUCCS',
+  warning: 'WARN'
 };
 
 function formatMessage (input, appname, color, type) {
@@ -32,6 +33,12 @@ export function Logger (appname) {
     if (process.env.NODE_ENV==='development') {
       console.log(formatMessage(msg, this.appname, chalk.magenta, types.debug));
     }
+  };
+  this.warning = function (msg) {
+    if (typeof msg === 'object') {
+      msg = CircularJSON.stringify(msg, null, 4);
+    }
+    console.log(formatMessage(msg, this.appname, chalk.yellow, types.warning));
   };
   this.info = function (msg) {
     if (typeof msg === 'object') {
