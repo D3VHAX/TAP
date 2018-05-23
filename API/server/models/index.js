@@ -11,7 +11,7 @@ self.getUserRecommended = async (userID, number) => {
 
     try {
         let res = await axios.get(STORAGE_URL + '/recommendation/_taste/user/' + userID, {"size" : number});
-        articles = [];
+        articles = res.data.hits.hits;
     } catch(e) {
         articles = [];
     }
