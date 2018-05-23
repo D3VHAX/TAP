@@ -10,7 +10,7 @@ import bodyParser from 'koa-bodyparser';
 let { API_HOST } = process.env;
 app.use(bodyParser());
 app.use(cors());
-app.use(vhost(API_HOST, Api));
+app.use(vhost(/^(.+)*$/, Api));
 
 app.use(errorHandler());
 
