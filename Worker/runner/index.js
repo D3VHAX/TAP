@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import striptags from 'striptags';
 import { Logger } from './libs/logger';
 let log = new Logger('Runner');
@@ -7,7 +8,7 @@ import _ from 'lodash';
 import * as publishers from './publishers';
 import Scheduler from './scheduler';
 import keyword from './keywords';
-import {Persist, CheckExist} from './storage';
+import { Persist, CheckExist } from './storage';
 import readingTime from './timeEstimator';
 import urlCleaner from './urlCleaner';
 
@@ -77,5 +78,5 @@ scheduler.listenJobs(async (feed) => {
 
 });
 
-export default runner;
+runner();
 
