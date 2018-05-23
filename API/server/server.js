@@ -16,4 +16,8 @@ app.use(errorHandler());
 
 app.use(helmet());
 
+process.on('unhandledRejection', function(reason){
+    console.log(reason); // eslint-disable-line
+});
+
 module.exports = app;
