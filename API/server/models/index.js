@@ -1,5 +1,6 @@
 import { Logger } from 'utils/logger';
 import axios from 'axios';
+
 let logger = new Logger('Elastic');
 
 const STORAGE_URL = 'http://tap-project.tk:9200/tap';

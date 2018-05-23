@@ -3,6 +3,7 @@ import { Logger } from 'utils/logger';
 const router = new Router();
 const logger = new Logger('api@Articles');
 import Elastic from 'models';
+import _ from 'lodash';
 
 /*
 Params
@@ -21,6 +22,8 @@ router.get('/articles', async ctx => {
 
     try {
         let articles = await Elastic.getUserRecommended(userID, maxItems);
+
+        articles = _.map(articles, '_source');
 
         ctx.body = (articles);
     } catch (error) {
