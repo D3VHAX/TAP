@@ -44,7 +44,6 @@
     "chalk": "^2.4.1",
     "circular-json": "^0.5.4",
     "dotenv": "^5.0.1",
-    "elasticsearch": "^15.0.0",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.0",
     "koa-error": "^3.2.0",
