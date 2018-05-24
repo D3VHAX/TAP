@@ -8,7 +8,7 @@ const STORAGE_URL = 'http://tap-project.tk:9200/tap';
 let self = {};
 
 self.getUserRecommended = async (userID, number) => {
-    let articles;
+  let articles;
 
     try {
         let res = await axios.get(STORAGE_URL + '/recommendation/_taste/user/' + userID, {"size" : number});
@@ -47,23 +47,23 @@ self.getUserRecommended = async (userID, number) => {
 
             articles = res.data.hits.hits;
         } catch(e) {
-            logger.debug(e);
-            articles = [];
+          logger.debug(e);
+          articles = [];
         }
     }
 
-    return articles;
-}
+  return articles;
+};
 
 self.storePreference = async (userID, itemID, value) => {
-    let res = await axios.post(STORAGE_URL + '/_taste/event', {
-        user: {id: userID},
-        item: {id: itemID},
-        value: value
-    });
+  let res = await axios.post(STORAGE_URL + '/_taste/event', {
+    user: { id: userID },
+    item: { id: itemID },
+    value: value
+  });
 
-    return true;
-}
+  return true;
+};
 
 
 export default self;

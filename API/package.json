@@ -8,7 +8,7 @@
     "lint": "better-npm-run lint",
     "lint:fix": "better-npm-run lint:fix",
     "prod": "better-npm-run prod",
-    "prod:build:server": "better-npm-run prod:build:server",
+    "prod:build": "better-npm-run prod:build",
     "prod:job": "better-npm-run prod:job",
     "prod:serve": "better-npm-run prod:serve",
     "start": "better-npm-run dev:start:server"
@@ -84,14 +84,14 @@
         "NODE_ENV": "production"
       }
     },
-    "prod": "npm run prod:build:server && npm run prod:serve",
+    "prod": "npm run prod:build && npm run prod:serve",
     "dev:start:server": {
       "command": "nodemon server --exec babel-node --plugins=dynamic-import-node",
       "env": {
         "NODE_ENV": "development"
       }
     },
-    "prod:build:server": {
+    "prod:build": {
       "command": "babel ./server -d ./dist --copy-files",
       "env": {
         "NODE_ENV": "production"
