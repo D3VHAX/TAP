@@ -24,20 +24,28 @@ self.getUserRecommended = async (userID, number) => {
               "from": 0, "size" : number,
               "query": {
                 "function_score": {
-                  "functions": [
-                    {
+                  "functions": [{
+                        "filter": { "match": { "categories": 'securite' } },
+                        "random_score": {"seed":  Math.floor(Math.random() * 200)},
+                        "weight": 0.7
+                    }, {
+                        "filter": { "match": { "categories": 'mode' } },
+                        "random_score": {"seed":  Math.floor(Math.random() * 200)},
+                        "weight": 0.7
+                    }, {
                       "random_score": {
-                        "seed":  Math.floor(Math.random() * 200)
-                      }
-                    }
-                  ],
-                  "score_mode": "sum"
+                        "seed":  Math.floor(Math.random() * 200),
+                      },
+                      "weight": 0.2
+                    }],
+                    "score_mode": "max"
                 }
               }
             });
 
             articles = res.data.hits.hits;
         } catch(e) {
+            logger.debug(e);
             articles = [];
         }
     }
