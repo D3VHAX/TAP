@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getArticles, setError } from 'actions/articles';
+import { getArticles, setError, getUniqueArticle, setOpinion } from 'actions/articles';
 
 class ArticlesListing extends Component {
   static propTypes = {
@@ -16,6 +16,8 @@ class ArticlesListing extends Component {
       params: PropTypes.shape({}),
     }),
     getArticles: PropTypes.func.isRequired,
+    getUniqueArticle: PropTypes.func.isRequired,
+    setOpinion: PropTypes.func.isRequired,
     setError: PropTypes.func.isRequired,
   }
 
@@ -28,11 +30,28 @@ class ArticlesListing extends Component {
   /**
     * Fetch Data from API, saving to Redux
     */
-  fetchRecipes = () => this.props.getArticles()
-    .catch((err) => {
+
+
+  setOpinion = (data) => {
+    this.props.setOpinion(data).catch((err) => {
       console.log(`Error: ${err}`);
       return this.props.setError(err);
-    })
+    });
+  }
+
+  fetchRecipes = () => {
+    this.props.getArticles().catch((err) => {
+      console.log(`Error: ${err}`);
+      return this.props.setError(err);
+    });
+  }
+
+  fetchRecipe = () => {
+    this.props.getUniqueArticle().catch((err) => {
+      console.log(`Error: ${err}`);
+      return this.props.setError(err);
+    });
+  }
 
   render = () => {
     const { Layout, articles, match } = this.props;
@@ -46,6 +65,8 @@ class ArticlesListing extends Component {
         loading={articles.loading}
         articles={articles.articles}
         reFetch={() => this.fetchRecipes()}
+        fetchNew={() => this.fetchRecipe()}
+        opinion={(data) => this.setOpinion(data)}
       />
     );
   }
@@ -58,6 +79,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getArticles,
   setError,
+  getUniqueArticle,
+  setOpinion,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlesListing);

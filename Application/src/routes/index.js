@@ -54,9 +54,7 @@ const Index = (
             Layout={SignUpComponent}
           />
           <Scene
-            back
             initial
-            rightTitle="_"
             key="login"
             title="LOGIN"
             {...DefaultProps.navbarProps}
@@ -81,14 +79,6 @@ const Index = (
             component={UpdateProfileContainer}
             Layout={UpdateProfileComponent}
           />
-        </Stack>
-        <Stack
-          key="home"
-          title={AppConfig.appName.toUpperCase()}
-          icon={() => <SimpleLineIcons name="speech" size={26} {...DefaultProps.icons} />}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene key="home" component={AboutComponent} />
         </Stack>
 
         <Stack

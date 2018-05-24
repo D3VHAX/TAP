@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { FlatList, TouchableOpacity, RefreshControl, Image } from 'react-native';
 import { Container, Content, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Right } from 'native-base';
 import { SimpleLineIcons } from '@expo/vector-icons';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 import { Actions } from 'react-native-router-flux';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -20,9 +19,11 @@ const ArticlesListing = ({
   loading,
   articles,
   reFetch,
+  fetchNew,
+  opinion,
 }) => {
   // Loading
-  if (loading) return <Loading />;
+  if (loading || articles.length < 1) return <Loading />;
 
   // Error
   if (error) return <Error content={error} />;
@@ -43,9 +44,14 @@ const ArticlesListing = ({
         <DeckSwiper
           dataSource={articles}
           looping={false}
-          onSwipeLeft={() => {
-
+          onSwipeLeft={(a) => {
+                      fetchNew();
+                      opinion({ articleID: a.id, userID: 1, action: 'dislike' });
                 }}
+          onSwipeRight={(a) => {
+            fetchNew();
+            opinion({ articleID: a.id, userID: 1, action: 'like' });
+          }}
           renderItem={item =>
                 (<TouchableOpacity onPress={() => onPress(item)} style={{ flex: 1 }}>
                   <Card style={{ elevation: 4 }}>
@@ -74,7 +80,7 @@ const ArticlesListing = ({
                       </Right>
                     </CardItem>
                   </Card>
-                 </TouchableOpacity>)
+                </TouchableOpacity>)
                 }
         />
 
@@ -88,11 +94,15 @@ ArticlesListing.propTypes = {
   loading: PropTypes.bool.isRequired,
   articles: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   reFetch: PropTypes.func,
+  fetchNew: PropTypes.func,
+  opinion: PropTypes.func,
 };
 
 ArticlesListing.defaultProps = {
   error: null,
   reFetch: null,
+  fetchNew: null,
+  opinion: null,
 };
 
 export default ArticlesListing;
