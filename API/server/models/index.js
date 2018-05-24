@@ -25,15 +25,6 @@ self.getUserRecommended = async (userID, number) => {
               "query": {
                 "function_score": {
                   "functions": [
-/*                  {
-                        "filter": { "match": { "categories": 'securite' } },
-                        "random_score": {"seed":  Math.floor(Math.random() * 200)},
-                        "weight": 0.7
-                    }, {
-                        "filter": { "match": { "categories": 'mode' } },
-                        "random_score": {"seed":  Math.floor(Math.random() * 200)},
-                        "weight": 0.7
-                    },*/
                     {
                       "random_score": {
                         "seed":  Math.floor(Math.random() * 200),
