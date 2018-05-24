@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var feed = {
+let feed = {
   commonName: '01Net',
   websiteUrl: 'http://www.01net.com/',
   articleParsingTag: 'div[itemprop="articleBody"]',

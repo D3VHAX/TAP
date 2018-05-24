@@ -10,38 +10,38 @@ let self = {};
 self.getUserRecommended = async (userID, number) => {
   let articles;
 
+  try {
+    let res = await axios.get(STORAGE_URL + '/recommendation/_taste/user/' + userID, { 'size' : number });
+    articles = res.data.hits.hits;
+  } catch(e) {
+    articles = [];
+  }
+
+  // No recommended articles. Just get some "random" articles (ElasticSearch uses interest of user instead of preferences)
+  if(articles.length === 0) {
     try {
-        let res = await axios.get(STORAGE_URL + '/recommendation/_taste/user/' + userID, {"size" : number});
-        articles = res.data.hits.hits;
-    } catch(e) {
-        articles = [];
-    }
-
-    // No recommended articles. Just get some "random" articles (ElasticSearch uses interest of user instead of preferences)
-    if(articles.length === 0) {
-        try {
-            let res = await axios.post(STORAGE_URL + '/item/_search', {
-              "from": 0, "size" : number,
-              "query": {
-                "function_score": {
-                  "functions": [
-                    {
-                      "random_score": {
-                        "seed":  Math.floor(Math.random() * 200),
-                      },
-                      //"weight": 0.2
-                    }],
-                    "score_mode": "max"
-                }
-              }
-            });
-
-            articles = res.data.hits.hits;
-        } catch(e) {
-          logger.debug(e);
-          articles = [];
+      let res = await axios.post(STORAGE_URL + '/item/_search', {
+        'from': 0, 'size' : number,
+        'query': {
+          'function_score': {
+            'functions': [
+              {
+                'random_score': {
+                  'seed':  Math.floor(Math.random() * 200),
+                },
+                //"weight": 0.2
+              }],
+            'score_mode': 'max'
+          }
         }
+      });
+
+      articles = res.data.hits.hits;
+    } catch(e) {
+      logger.debug(e);
+      articles = [];
     }
+  }
 
   return articles;
 };

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var feed = {
+let feed = {
   commonName: 'Elle',
   websiteUrl: 'http://www.elle.fr',
   articleParsingTag: 'article',
@@ -22,3 +22,5 @@ var feed = {
 };
 
 exports.default = feed;
+
+

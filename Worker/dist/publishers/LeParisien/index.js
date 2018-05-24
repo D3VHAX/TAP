@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var feed = {
+let feed = {
   commonName: 'Le Parisien',
   websiteUrl: 'http://www.leparisien.fr',
   articleParsingTag: 'article',
