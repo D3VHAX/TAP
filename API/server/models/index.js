@@ -8,60 +8,60 @@ const STORAGE_URL = 'http://tap-project.tk:9200/tap';
 let self = {};
 
 self.getUserRecommended = async (userID, number) => {
-    let articles;
+  let articles;
 
+  try {
+    let res = await axios.get(STORAGE_URL + '/recommendation/_taste/user/' + userID, { 'size' : number });
+    articles = res.data.hits.hits;
+  } catch(e) {
+    articles = [];
+  }
+
+  // No recommended articles. Just get some random articles...
+  if(articles.length === 0) {
     try {
-        let res = await axios.get(STORAGE_URL + '/recommendation/_taste/user/' + userID, {"size" : number});
-        articles = res.data.hits.hits;
-    } catch(e) {
-        articles = [];
-    }
-
-    // No recommended articles. Just get some random articles...
-    if(articles.length === 0) {
-        try {
-            let res = await axios.post(STORAGE_URL + '/item/_search', {
-              "from": 0, "size" : number,
-              "query": {
-                "function_score": {
-                  "functions": [{
-                        "filter": { "match": { "categories": 'securite' } },
-                        "random_score": {"seed":  Math.floor(Math.random() * 200)},
-                        "weight": 0.7
-                    }, {
-                        "filter": { "match": { "categories": 'mode' } },
-                        "random_score": {"seed":  Math.floor(Math.random() * 200)},
-                        "weight": 0.7
-                    }, {
-                      "random_score": {
-                        "seed":  Math.floor(Math.random() * 200),
-                      },
-                      "weight": 0.2
-                    }],
-                    "score_mode": "max"
-                }
-              }
-            });
-
-            articles = res.data.hits.hits;
-        } catch(e) {
-            logger.debug(e);
-            articles = [];
+      let res = await axios.post(STORAGE_URL + '/item/_search', {
+        'from': 0, 'size' : number,
+        'query': {
+          'function_score': {
+            'functions': [{
+              'filter': { 'match': { 'categories': 'securite' } },
+              'random_score': { 'seed':  Math.floor(Math.random() * 200) },
+              'weight': 0.7
+            }, {
+              'filter': { 'match': { 'categories': 'mode' } },
+              'random_score': { 'seed':  Math.floor(Math.random() * 200) },
+              'weight': 0.7
+            }, {
+              'random_score': {
+                'seed':  Math.floor(Math.random() * 200),
+              },
+              'weight': 0.2
+            }],
+            'score_mode': 'max'
+          }
         }
-    }
+      });
 
-    return articles;
-}
+      articles = res.data.hits.hits;
+    } catch(e) {
+      logger.debug(e);
+      articles = [];
+    }
+  }
+
+  return articles;
+};
 
 self.storePreference = async (userID, itemID, value) => {
-    let res = await axios.post(STORAGE_URL + '/_taste/event', {
-        user: {id: userID},
-        item: {id: itemID},
-        value: value
-    });
+  let res = await axios.post(STORAGE_URL + '/_taste/event', {
+    user: { id: userID },
+    item: { id: itemID },
+    value: value
+  });
 
-    return true;
-}
+  return true;
+};
 
 
 export default self;
