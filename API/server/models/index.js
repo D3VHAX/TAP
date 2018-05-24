@@ -17,14 +17,15 @@ self.getUserRecommended = async (userID, number) => {
         articles = [];
     }
 
-    // No recommended articles. Just get some random articles...
+    // No recommended articles. Just get some "random" articles (ElasticSearch uses interest of user instead of preferences)
     if(articles.length === 0) {
         try {
             let res = await axios.post(STORAGE_URL + '/item/_search', {
               "from": 0, "size" : number,
               "query": {
                 "function_score": {
-                  "functions": [{
+                  "functions": [
+/*                  {
                         "filter": { "match": { "categories": 'securite' } },
                         "random_score": {"seed":  Math.floor(Math.random() * 200)},
                         "weight": 0.7
@@ -32,11 +33,12 @@ self.getUserRecommended = async (userID, number) => {
                         "filter": { "match": { "categories": 'mode' } },
                         "random_score": {"seed":  Math.floor(Math.random() * 200)},
                         "weight": 0.7
-                    }, {
+                    },*/
+                    {
                       "random_score": {
                         "seed":  Math.floor(Math.random() * 200),
                       },
-                      "weight": 0.2
+                      //"weight": 0.2
                     }],
                     "score_mode": "max"
                 }
