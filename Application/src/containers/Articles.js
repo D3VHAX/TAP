@@ -66,7 +66,7 @@ class ArticlesListing extends Component {
         articles={articles.articles}
         reFetch={() => this.fetchRecipes()}
         fetchNew={() => this.fetchRecipe()}
-        opinion={(data) => this.setOpinion(data)}
+        opinion={data => this.setOpinion(data)}
       />
     );
   }
